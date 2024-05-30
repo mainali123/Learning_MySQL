@@ -121,3 +121,80 @@ FROM film_list
 WHERE price BETWEEN 2 AND 4
   AND (category LIKE 'Documentary' OR category LIKE 'Horror')
   AND actors LIKE '%Bob%';
+
+
+-- ORDER BY
+
+# First 10 customers sorted alphabetically by name
+SELECT name
+FROM customer_list
+order by name
+LIMIT 10;
+
+# Sort the output from the address table in ascending order based on the last_update column and show just the first five results
+SELECT address, last_update
+FROM address
+ORDER BY last_update
+LIMIT 5;
+
+# Sort the addresses alphabetically, but grouped by district
+SELECT address, district
+FROM address
+ORDER BY district, address;
+
+# Sort the addresses by descending alphabetical order and the districts in ascending order
+SELECT address, district
+FROM address
+ORDER BY district, address DESC;
+
+-- LIMIT
+
+SELECT *
+FROM address
+LIMIT 1, 10;
+
+# OR
+
+SELECT *
+FROM address
+LIMIT 10 OFFSET 5;
+
+-- JOINING TWO TABLES USING INNER JOIN
+SELECT city, country
+FROM city
+         INNER JOIN country
+                    ON city.country_id = country.country_id
+WHERE city.country_id < 5
+ORDER BY country, city;
+
+SELECT city, country
+FROM city
+         INNER JOIN country USING (country_id)
+WHERE country_id < 5
+ORDER BY country, city;
+
+SELECT COUNT(*)
+FROM city
+         INNER JOIN country
+                    ON city.country_id = country.country_id
+WHERE country.country_id = 49
+ORDER BY country, city;
+
+-- INSERT
+INSERT INTO language (name) VALUE ('Nepal');
+SELECT * FROM language;
+
+-- Delete
+DELETE FROM language WHERE name = 'Nepal';
+SELECT * FROM language;
+
+-- Truncate
+SELECT * FROM payment;
+TRUNCATE table payment;
+SELECT * FROM payment;
+
+-- Update
+INSERT INTO language (name) VALUE ('Nepal');
+SELECT * FROM language;
+UPDATE language SET name='Nepali' WHERE name = 'Nepal';
+SELECT * FROM language;
