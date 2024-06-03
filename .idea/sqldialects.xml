@@ -2,8 +2,10 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://C:/xampp/htdocs/saraswoti/assets/query.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Advanced_Querying/query.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Sakila-db/diwash_explore_schema.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Sakila-db/sakila-schema.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Working_With_DB_Structures/query.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/self_practice_1.sql" dialect="MySQL" />
   </component>
 </project>
