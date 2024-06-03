@@ -129,6 +129,149 @@ ORDER BY no_of_times_watched DESC;
 
 # ADVANCED JOINS
 
+-- Inner Join
+
+SELECT first_name, last_name, film_id
+FROM actor
+         INNER JOIN film_actor USING (actor_id)
+LIMIT 20;
+
+
+SELECT first_name, last_name, film_id # Without using INNER JOIN
+FROM actor AS ac,
+     film_actor AS fa
+WHERE ac.actor_id = fa.actor_id
+LIMIT 20;
+
+SELECT first_name, last_name, film_id
+FROM actor AS ac
+         INNER JOIN film_actor AS fa ON ac.actor_id = fa.actor_id
+LIMIT 20;
+
+-- UNION
+
+SELECT first_name
+FROM actor
+UNION
+SELECT first_name
+FROM customer
+UNION
+SELECT title
+FROM film;
+
+(SELECT title, COUNT(rental_id) AS num_rented
+ FROM film
+          INNER JOIN inventory USING (film_id)
+          INNER JOIN rental USING (inventory_id)
+ GROUP BY title
+ ORDER BY num_rented DESC
+ LIMIT 5)
+UNION
+(SELECT title, COUNT(rental_id) AS num_rented
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ GROUP BY title
+ ORDER BY num_rented ASC
+ LIMIT 5);
+
+SELECT first_name # Will show distinct values
+FROM actor
+WHERE actor_id = 88
+UNION
+SELECT first_name
+FROM actor
+WHERE actor_id = 169;
+
+SELECT first_name # Will show duplicates values
+FROM actor
+WHERE actor_id = 88
+UNION ALL
+SELECT first_name
+FROM actor
+WHERE actor_id = 169;
+
+
+(SELECT title, rental_date, return_date
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ WHERE film_id = 998
+ ORDER BY rental_date ASC);
+
+(SELECT title, rental_date, return_date
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ WHERE film_id = 998
+ ORDER BY rental_date ASC)
+# This won't sort in ASC order since LIMIT is missing
+UNION ALL
+(SELECT title, rental_date, return_date
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ WHERE film_id = 998
+ ORDER BY rental_date ASC
+ LIMIT 5);
+
+
+(SELECT title, rental_date, return_date
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ WHERE film_id = 998)
+UNION
+(SELECT title, rental_date, return_date
+ FROM film
+          JOIN inventory USING (film_id)
+          JOIN rental USING (inventory_id)
+ WHERE film_id = 998)
+ORDER BY rental_date DESC;
+
+(SELECT first_name, last_name
+ FROM actor
+ WHERE actor_id < 5)
+UNION
+(SELECT first_name, last_name
+ FROM actor
+ WHERE actor_id > 190
+ ORDER BY first_name
+ LIMIT 4);
+
+SELECT first_name, last_name
+FROM actor
+WHERE actor_id < 5
+   OR actor_id > 190
+ORDER BY first_name
+LIMIT 4;
+
+
+-- LEFT AND RIGHT JOINS
+
+SELECT title, rental_date
+FROM film
+         LEFT JOIN inventory USING (film_id)
+         LEFT JOIN rental USING (inventory_id);
+
+
+SELECT email, name AS category_name, COUNT(cat.category_id) AS cnt
+FROM customer AS cs
+         LEFT JOIN rental USING (customer_id)
+         LEFT JOIN inventory USING (inventory_id)
+         LEFT JOIN film_category USING (film_id)
+         LEFT JOIN category AS cat USING (category_id)
+GROUP BY email, category_name
+ORDER BY cnt DESC
+LIMIT 5;
+
+
+SELECT *
+FROM customer
+         LEFT JOIN rental USING (customer_id)
+ORDER BY customer_id, first_name, last_name DESC;
+
+
 # NESTED QUERIES
 
 # USER VARIABLES
